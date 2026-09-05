@@ -1,0 +1,301 @@
+/*
+ * Design tokens and shared primitives for the chrome UI.
+ *
+ * Theme resolution happens in JS (scripts/app.js): "system" is resolved to
+ * a concrete "light" or "dark" before `data-theme` is ever set on <html>,
+ * so this file only needs to define those two concrete themes - no
+ * prefers-color-scheme media queries needed here.
+ */
+
+:root {
+  --font-ui: -apple-system, BlinkMacSystemFont, 'Segoe UI Variable', 'Segoe UI', Roboto, 'Helvetica Neue', Arial,
+    sans-serif;
+  --font-mono: ui-monospace, 'SF Mono', 'Cascadia Code', Consolas, monospace;
+
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+  --radius-pill: 999px;
+
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+
+  --transition-fast: 120ms ease;
+  --transition-base: 180ms ease;
+}
+
+[data-theme='dark'] {
+  --surface-0: #16181d;
+  --surface-1: #1e2128;
+  --surface-2: #262a33;
+  --surface-3: #30353f;
+  --border-subtle: #2a2e37;
+  --border-default: #383d48;
+  --ink-0: #e9ebf0;
+  --ink-1: #9aa1af;
+  --ink-2: #6b7280;
+  --accent: #6b93ff;
+  --accent-strong: #4c7cf0;
+  --accent-ink: #0b1020;
+  --accent-soft: rgba(107, 147, 255, 0.16);
+  --danger: #f2685c;
+  --danger-soft: rgba(242, 104, 92, 0.15);
+  --success: #57c785;
+  --shadow-color: rgba(0, 0, 0, 0.45);
+  --scrollbar-thumb: #3a3f4a;
+  --overlay-scrim: rgba(10, 11, 14, 0.55);
+}
+
+[data-theme='light'] {
+  --surface-0: #f3f4f6;
+  --surface-1: #ffffff;
+  --surface-2: #eef0f3;
+  --surface-3: #e4e7ec;
+  --border-subtle: #e6e8eb;
+  --border-default: #d5d9df;
+  --ink-0: #1b1e24;
+  --ink-1: #5b6270;
+  --ink-2: #838a99;
+  --accent: #3763d1;
+  --accent-strong: #4c7cf0;
+  --accent-ink: #ffffff;
+  --accent-soft: rgba(76, 124, 240, 0.1);
+  --danger: #c8362a;
+  --danger-soft: rgba(200, 54, 42, 0.1);
+  --success: #1f9d5c;
+  --shadow-color: rgba(20, 24, 34, 0.12);
+  --scrollbar-thumb: #c8ccd3;
+  --overlay-scrim: rgba(20, 22, 27, 0.35);
+}
+
+* {
+  box-sizing: border-box;
+  min-width: 0;
+}
+
+/* [hidden] is used throughout as the single source of truth for show/hide.
+   Without this, a higher-specificity `display` rule elsewhere (e.g. an ID
+   selector needing `display: flex` to center its content) would silently
+   win over the attribute and the element would stay visible. */
+[hidden] {
+  display: none !important;
+}
+
+html,
+body {
+  height: 100%;
+  margin: 0;
+  overflow: hidden; /* the chrome window itself never scrolls; individual panels do */
+}
+
+body {
+  background: var(--surface-1);
+  color: var(--ink-0);
+  font-family: var(--font-ui);
+  font-size: 13px;
+  line-height: 1.45;
+  -webkit-font-smoothing: antialiased;
+  display: flex;
+  flex-direction: column;
+}
+
+h1,
+h2,
+h3,
+p {
+  margin: 0;
+}
+
+button {
+  font-family: inherit;
+  font-size: inherit;
+  color: inherit;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+}
+
+button:disabled {
+  cursor: default;
+  opacity: 0.35;
+}
+
+input,
+select {
+  font-family: inherit;
+  font-size: inherit;
+  color: inherit;
+}
+
+a {
+  color: var(--accent);
+}
+
+svg {
+  display: block;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--scrollbar-thumb);
+  border-radius: var(--radius-pill);
+  border: 2px solid transparent;
+  background-clip: padding-box;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+/* -- shared icon buttons (toolbar, tab strip, panel headers) -- */
+
+.icon-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  border-radius: var(--radius-md);
+  color: var(--ink-1);
+  transition: background var(--transition-fast), color var(--transition-fast);
+}
+
+.icon-button svg {
+  width: 17px;
+  height: 17px;
+}
+
+.icon-button:hover:not(:disabled) {
+  background: var(--surface-2);
+  color: var(--ink-0);
+}
+
+.icon-button:active:not(:disabled) {
+  background: var(--surface-3);
+}
+
+.icon-button.is-active {
+  color: var(--accent);
+  background: var(--accent-soft);
+}
+
+/* -- shared buttons used in panels -- */
+
+.text-button {
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-sm);
+  color: var(--ink-1);
+  font-weight: 500;
+  transition: background var(--transition-fast), color var(--transition-fast);
+}
+
+.text-button:hover:not(:disabled) {
+  background: var(--surface-2);
+  color: var(--ink-0);
+}
+
+.primary-button {
+  padding: var(--space-2) var(--space-4);
+  border-radius: var(--radius-sm);
+  background: var(--accent-strong);
+  color: var(--accent-ink);
+  font-weight: 600;
+  transition: filter var(--transition-fast);
+}
+
+.primary-button:hover:not(:disabled) {
+  filter: brightness(1.08);
+}
+
+.primary-button.danger {
+  background: var(--danger);
+}
+
+/* -- toggle switch -- */
+
+.toggle {
+  position: relative;
+  display: inline-block;
+  width: 36px;
+  height: 21px;
+  flex: none;
+}
+
+.toggle input {
+  position: absolute;
+  opacity: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  cursor: pointer;
+}
+
+.toggle-track {
+  position: absolute;
+  inset: 0;
+  background: var(--surface-3);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-pill);
+  transition: background var(--transition-fast), border-color var(--transition-fast);
+}
+
+.toggle-track::after {
+  content: '';
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  background: var(--ink-0);
+  transition: transform var(--transition-fast);
+}
+
+.toggle input:checked + .toggle-track {
+  background: var(--accent-strong);
+  border-color: var(--accent-strong);
+}
+
+.toggle input:checked + .toggle-track::after {
+  transform: translateX(15px);
+  background: var(--accent-ink);
+}
+
+.toggle input:focus-visible + .toggle-track {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* -- focus ring, applied consistently instead of the platform default -- */
+
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+[tabindex]:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}

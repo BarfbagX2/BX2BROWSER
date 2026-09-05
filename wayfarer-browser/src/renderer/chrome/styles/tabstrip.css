@@ -1,0 +1,137 @@
+#tabstrip {
+  display: flex;
+  align-items: flex-end;
+  height: 36px;
+  padding: 4px 4px 0 8px;
+  gap: 2px;
+  background: var(--surface-0);
+}
+
+#tabstrip-list {
+  display: flex;
+  align-items: flex-end;
+  flex: 1 1 auto;
+  min-width: 0;
+  height: 100%;
+  gap: 2px;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+#tabstrip-list::-webkit-scrollbar {
+  display: none;
+}
+
+.tab {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  flex: 1 1 180px;
+  min-width: 96px;
+  max-width: 220px;
+  height: 32px;
+  padding: 0 var(--space-2) 0 var(--space-3);
+  border-radius: var(--radius-md) var(--radius-md) 0 0;
+  color: var(--ink-1);
+  position: relative;
+  transition: background var(--transition-fast), color var(--transition-fast);
+}
+
+.tab:hover {
+  background: var(--surface-2);
+  color: var(--ink-0);
+}
+
+.tab.is-active {
+  background: var(--surface-1);
+  color: var(--ink-0);
+}
+
+/* The one deliberate flourish in the whole chrome: a soft accent glow
+   marking the active tab, rather than a flat highlight. */
+.tab.is-active::after {
+  content: '';
+  position: absolute;
+  left: var(--space-3);
+  right: var(--space-3);
+  bottom: 0;
+  height: 2px;
+  border-radius: var(--radius-pill);
+  background: var(--accent-strong);
+  box-shadow: 0 0 8px 0 var(--accent);
+}
+
+.tab-favicon {
+  flex: none;
+  width: 16px;
+  height: 16px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--ink-2);
+}
+
+.tab-favicon img {
+  width: 16px;
+  height: 16px;
+  object-fit: contain;
+  border-radius: 3px;
+}
+
+.tab-title {
+  flex: 1 1 auto;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 12.5px;
+}
+
+.tab-close {
+  flex: none;
+  width: 20px;
+  height: 20px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-sm);
+  color: var(--ink-2);
+  opacity: 0;
+  transition: opacity var(--transition-fast), background var(--transition-fast), color var(--transition-fast);
+}
+
+.tab:hover .tab-close,
+.tab.is-active .tab-close {
+  opacity: 1;
+}
+
+.tab-close:hover {
+  background: var(--surface-3);
+  color: var(--ink-0);
+}
+
+.tab-close svg {
+  width: 11px;
+  height: 11px;
+}
+
+.tab-loading-spinner {
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
+  border: 1.6px solid var(--border-default);
+  border-top-color: var(--accent);
+  animation: tab-spin 700ms linear infinite;
+}
+
+@keyframes tab-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+#new-tab-button {
+  flex: none;
+  align-self: center;
+  margin-left: var(--space-1);
+}

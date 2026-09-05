@@ -1,0 +1,172 @@
+#toolbar-container {
+  flex: none;
+  background: var(--surface-0);
+  border-bottom: 1px solid var(--border-subtle);
+  position: relative;
+  z-index: 10;
+}
+
+#navbar {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  height: 48px;
+  padding: 0 var(--space-2);
+}
+
+#nav-buttons {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  flex: none;
+}
+
+#nav-right-buttons {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  flex: none;
+}
+
+/* -- address bar -- */
+
+#address-form {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+#address-bar-wrap {
+  display: flex;
+  align-items: center;
+  height: 32px;
+  padding: 0 var(--space-2) 0 var(--space-3);
+  background: var(--surface-2);
+  border: 1px solid transparent;
+  border-radius: var(--radius-pill);
+  gap: var(--space-2);
+  transition: background var(--transition-fast), border-color var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+#address-bar-wrap:hover {
+  background: var(--surface-3);
+}
+
+#address-bar-wrap.is-focused {
+  background: var(--surface-1);
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-soft);
+}
+
+#security-indicator {
+  flex: none;
+  display: inline-flex;
+  color: var(--ink-2);
+}
+
+#security-indicator svg {
+  width: 14px;
+  height: 14px;
+}
+
+#security-indicator.is-secure {
+  color: var(--success);
+}
+
+#address-input {
+  flex: 1 1 auto;
+  min-width: 0;
+  height: 100%;
+  border: none;
+  background: transparent;
+  color: var(--ink-0);
+  outline: none;
+}
+
+#address-input::placeholder {
+  color: var(--ink-2);
+}
+
+#bookmark-star {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  border-radius: var(--radius-sm);
+  color: var(--ink-2);
+}
+
+#bookmark-star svg {
+  width: 15px;
+  height: 15px;
+}
+
+#bookmark-star:hover {
+  color: var(--ink-0);
+}
+
+#bookmark-star.is-bookmarked {
+  color: var(--accent);
+}
+
+#bookmark-star.is-bookmarked svg {
+  fill: currentColor;
+}
+
+/* -- loading progress hairline, shown under the toolbar while the active tab loads -- */
+
+#progress-bar {
+  position: absolute;
+  left: 0;
+  bottom: -1px;
+  height: 2px;
+  width: 0%;
+  background: var(--accent-strong);
+  transition: width 320ms ease;
+  opacity: 0;
+}
+
+#progress-bar.is-visible {
+  opacity: 1;
+}
+
+/* -- menu dropdown -- */
+
+.dropdown-menu {
+  position: absolute;
+  top: 44px;
+  right: var(--space-2);
+  min-width: 220px;
+  background: var(--surface-1);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-md);
+  box-shadow: 0 8px 24px var(--shadow-color);
+  padding: var(--space-1);
+  z-index: 30;
+}
+
+.dropdown-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: var(--space-2) var(--space-3);
+  border-radius: var(--radius-sm);
+  text-align: left;
+}
+
+.dropdown-item:hover {
+  background: var(--surface-2);
+}
+
+.shortcut-hint {
+  color: var(--ink-2);
+  font-size: 12px;
+}
+
+.dropdown-separator {
+  height: 1px;
+  background: var(--border-subtle);
+  margin: var(--space-1) var(--space-2);
+}

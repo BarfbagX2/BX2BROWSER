@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      http-equiv="Content-Security-Policy"
+      content="default-src 'self'; img-src 'self' https: http: data:; style-src 'self'; script-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'self';"
+    />
+    <title>Wayfarer</title>
+    <link rel="stylesheet" href="styles/base.css" />
+    <link rel="stylesheet" href="styles/toolbar.css" />
+    <link rel="stylesheet" href="styles/tabstrip.css" />
+    <link rel="stylesheet" href="styles/panels.css" />
+  </head>
+  <body>
+    <div id="toolbar-container">
+      <div id="tabstrip">
+        <div id="tabstrip-list" role="tablist" aria-label="Open tabs"></div>
+        <button id="new-tab-button" class="icon-button" type="button" title="New tab (Ctrl+T)" aria-label="New tab">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14" /></svg>
+        </button>
+      </div>
+
+      <div id="navbar">
+        <div id="nav-buttons">
+          <button id="back-button" class="icon-button" type="button" title="Back" aria-label="Back" disabled>
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12H5M12 19l-7-7 7-7" /></svg>
+          </button>
+          <button id="forward-button" class="icon-button" type="button" title="Forward" aria-label="Forward" disabled>
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7" /></svg>
+          </button>
+          <button id="reload-button" class="icon-button" type="button" title="Reload" aria-label="Reload">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M4 12a8 8 0 0 1 14.5-4.5M20 12a8 8 0 0 1-14.5 4.5" />
+              <path d="M18 4v4h-4M6 20v-4h4" />
+            </svg>
+          </button>
+          <button id="home-button" class="icon-button" type="button" title="Home" aria-label="Home">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M4 11.5 12 4l8 7.5" />
+              <path d="M6 10v9h12v-9" />
+              <path d="M10 19v-5h4v5" />
+            </svg>
+          </button>
+        </div>
+
+        <form id="address-form" autocomplete="off">
+          <div id="address-bar-wrap">
+            <span id="security-indicator" aria-hidden="true">
+              <svg viewBox="0 0 24 24">
+                <path d="M12 3.5 5 6.5v5c0 4.6 3 7.9 7 9 4-1.1 7-4.4 7-9v-5L12 3.5z" />
+              </svg>
+            </span>
+            <input
+              id="address-input"
+              type="text"
+              spellcheck="false"
+              autocorrect="off"
+              autocapitalize="off"
+              placeholder="Search or enter a website"
+              aria-label="Address bar"
+            />
+            <button id="bookmark-star" type="button" title="Bookmark this page" aria-label="Bookmark this page">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M12 3.5l2.6 5.4 5.9.8-4.3 4.2 1 5.9L12 17l-5.2 2.8 1-5.9L3.5 9.7l5.9-.8L12 3.5z" />
+              </svg>
+            </button>
+          </div>
+        </form>
+
+        <div id="nav-right-buttons">
+          <button id="history-button" class="icon-button" type="button" title="History (Ctrl+Y)" aria-label="History">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <circle cx="12" cy="12" r="8.5" />
+              <path d="M12 7.5V12l3.2 2" />
+            </svg>
+          </button>
+          <button id="downloads-button" class="icon-button" type="button" title="Downloads" aria-label="Downloads">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M12 4v10" />
+              <path d="M8 10.5 12 14.5 16 10.5" />
+              <path d="M5 16.5v3a1.5 1.5 0 0 0 1.5 1.5h11a1.5 1.5 0 0 0 1.5-1.5v-3" />
+            </svg>
+          </button>
+          <button id="menu-button" class="icon-button" type="button" title="Menu" aria-label="Menu">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16" /></svg>
+          </button>
+        </div>
+      </div>
+
+      <div id="progress-bar"></div>
+
+      <div id="menu-dropdown" class="dropdown-menu" role="menu" hidden>
+        <button class="dropdown-item" data-action="new-tab" role="menuitem" type="button">
+          <span>New Tab</span><span class="shortcut-hint">Ctrl+T</span>
+        </button>
+        <div class="dropdown-separator"></div>
+        <button class="dropdown-item" data-action="open-history" role="menuitem" type="button">
+          <span>History</span><span class="shortcut-hint">Ctrl+Y</span>
+        </button>
+        <button class="dropdown-item" data-action="open-bookmarks" role="menuitem" type="button">
+          <span>Bookmarks</span>
+        </button>
+        <button class="dropdown-item" data-action="open-downloads" role="menuitem" type="button">
+          <span>Downloads</span>
+        </button>
+        <div class="dropdown-separator"></div>
+        <button class="dropdown-item" data-action="reload-all-tabs" role="menuitem" type="button">
+          <span>Reload All Tabs</span>
+        </button>
+        <div class="dropdown-separator"></div>
+        <button class="dropdown-item" data-action="open-settings" role="menuitem" type="button">
+          <span>Settings</span><span class="shortcut-hint">Ctrl+,</span>
+        </button>
+      </div>
+    </div>
+
+    <div id="content-overlays">
+      <section id="newtab-overlay" class="overlay" hidden>
+        <div class="newtab-inner">
+          <h1 class="newtab-wordmark">Wayfarer</h1>
+          <form id="newtab-search-form" autocomplete="off">
+            <input
+              id="newtab-search-input"
+              type="text"
+              spellcheck="false"
+              autocorrect="off"
+              autocapitalize="off"
+              placeholder="Search or enter a website"
+              aria-label="Search or enter a website"
+            />
+          </form>
+          <div id="newtab-shortcuts" class="shortcut-grid" aria-label="Frequently visited"></div>
+        </div>
+      </section>
+
+      <section id="crashed-overlay" class="overlay" hidden>
+        <div class="status-card">
+          <h2>This tab crashed</h2>
+          <p>Something went wrong loading this page. Reloading the tab usually fixes it.</p>
+          <button id="crashed-reload-button" class="primary-button" type="button">Reload Tab</button>
+        </div>
+      </section>
+
+      <section id="panel-overlay" class="overlay" hidden>
+        <div class="panel-shell">
+          <nav class="panel-nav" aria-label="Browser tools">
+            <button class="panel-nav-item" data-panel="history" type="button">History</button>
+            <button class="panel-nav-item" data-panel="bookmarks" type="button">Bookmarks</button>
+            <button class="panel-nav-item" data-panel="downloads" type="button">Downloads</button>
+            <button class="panel-nav-item" data-panel="settings" type="button">Settings</button>
+            <div class="panel-nav-spacer"></div>
+            <button id="panel-close-button" class="panel-nav-item" type="button">Close</button>
+          </nav>
+
+          <div class="panel-body">
+            <section id="panel-page-history" class="panel-page" hidden>
+              <header class="panel-page-header">
+                <h1>History</h1>
+                <div class="panel-page-actions">
+                  <input id="history-search-input" type="search" placeholder="Search history" aria-label="Search history" />
+                  <button id="history-clear-all-button" class="text-button" type="button">Clear all history</button>
+                </div>
+              </header>
+              <div id="history-list" class="entry-list" aria-live="polite"></div>
+            </section>
+
+            <section id="panel-page-bookmarks" class="panel-page" hidden>
+              <header class="panel-page-header">
+                <h1>Bookmarks</h1>
+                <div class="panel-page-actions">
+                  <button id="bookmarks-new-folder-button" class="text-button" type="button">New folder</button>
+                </div>
+              </header>
+              <div id="bookmarks-tree" class="entry-list"></div>
+            </section>
+
+            <section id="panel-page-downloads" class="panel-page" hidden>
+              <header class="panel-page-header">
+                <h1>Downloads</h1>
+                <div class="panel-page-actions">
+                  <button id="downloads-open-folder-button" class="text-button" type="button">Open downloads folder</button>
+                  <button id="downloads-clear-completed-button" class="text-button" type="button">Clear completed</button>
+                </div>
+              </header>
+              <div id="downloads-list" class="entry-list"></div>
+            </section>
+
+            <section id="panel-page-settings" class="panel-page" hidden>
+              <header class="panel-page-header">
+                <h1>Settings</h1>
+              </header>
+              <div class="settings-groups">
+                <section class="settings-group">
+                  <h2>General</h2>
+                  <div class="settings-row">
+                    <div class="settings-row-label">
+                      <span>Homepage</span>
+                      <span class="settings-row-hint">Used by the Home button</span>
+                    </div>
+                    <div class="settings-row-control">
+                      <label class="radio-inline">
+                        <input type="radio" name="homepage-mode" id="homepage-mode-newtab" value="newtab" />
+                        New Tab page
+                      </label>
+                      <label class="radio-inline">
+                        <input type="radio" name="homepage-mode" id="homepage-mode-custom" value="custom" />
+                        <input id="homepage-url-input" type="text" placeholder="https://example.com" />
+                      </label>
+                    </div>
+                  </div>
+                  <div class="settings-row">
+                    <div class="settings-row-label"><span>Search engine</span></div>
+                    <div class="settings-row-control">
+                      <select id="search-engine-select">
+                        <option value="google">Google</option>
+                        <option value="duckduckgo">DuckDuckGo</option>
+                        <option value="bing">Bing</option>
+                        <option value="ecosia">Ecosia</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="settings-row">
+                    <div class="settings-row-label"><span>When Wayfarer starts</span></div>
+                    <div class="settings-row-control">
+                      <select id="startup-behavior-select">
+                        <option value="newtab">Open the New Tab page</option>
+                        <option value="homepage">Open the homepage</option>
+                        <option value="restore">Continue where you left off</option>
+                      </select>
+                    </div>
+                  </div>
+                </section>
+
+                <section class="settings-group">
+                  <h2>Downloads</h2>
+                  <div class="settings-row">
+                    <div class="settings-row-label">
+                      <span>Save files to</span>
+                      <span id="download-dir-display" class="settings-row-hint"></span>
+                    </div>
+                    <div class="settings-row-control">
+                      <button id="choose-download-dir-button" class="text-button" type="button">Change&hellip;</button>
+                    </div>
+                  </div>
+                </section>
+
+                <section class="settings-group">
+                  <h2>Appearance</h2>
+                  <div class="settings-row">
+                    <div class="settings-row-label"><span>Theme</span></div>
+                    <div class="settings-row-control">
+                      <select id="theme-select">
+                        <option value="system">Match system</option>
+                        <option value="light">Light</option>
+                        <option value="dark">Dark</option>
+                      </select>
+                    </div>
+                  </div>
+                </section>
+
+                <section class="settings-group">
+                  <h2>Privacy &amp; security</h2>
+                  <div class="settings-row">
+                    <div class="settings-row-label">
+                      <span>JavaScript</span>
+                      <span class="settings-row-hint">Most sites need this on to work correctly</span>
+                    </div>
+                    <div class="settings-row-control">
+                      <label class="toggle">
+                        <input id="javascript-toggle" type="checkbox" />
+                        <span class="toggle-track"></span>
+                      </label>
+                    </div>
+                  </div>
+                  <div class="settings-row">
+                    <div class="settings-row-label">
+                      <span>Hardware acceleration</span>
+                      <span class="settings-row-hint">Uses your graphics card for smoother rendering</span>
+                    </div>
+                    <div class="settings-row-control">
+                      <label class="toggle">
+                        <input id="hardware-accel-toggle" type="checkbox" />
+                        <span class="toggle-track"></span>
+                      </label>
+                    </div>
+                  </div>
+                  <div class="settings-row">
+                    <div class="settings-row-label"><span>Send &ldquo;Do Not Track&rdquo; requests</span></div>
+                    <div class="settings-row-control">
+                      <label class="toggle">
+                        <input id="dnt-toggle" type="checkbox" />
+                        <span class="toggle-track"></span>
+                      </label>
+                    </div>
+                  </div>
+                  <div class="settings-row">
+                    <div class="settings-row-label">
+                      <span>Block third-party cookies</span>
+                      <span class="settings-row-hint">May break some embedded sign-in flows</span>
+                    </div>
+                    <div class="settings-row-control">
+                      <label class="toggle">
+                        <input id="third-party-cookies-toggle" type="checkbox" />
+                        <span class="toggle-track"></span>
+                      </label>
+                    </div>
+                  </div>
+                  <div id="apply-banner" class="apply-banner" hidden>
+                    <span id="apply-banner-text"></span>
+                    <button id="apply-banner-button" class="text-button" type="button"></button>
+                  </div>
+                </section>
+
+                <section class="settings-group">
+                  <h2>Clear browsing data</h2>
+                  <div class="clear-data-options">
+                    <label class="checkbox-inline">
+                      <input id="clear-history-checkbox" type="checkbox" checked />
+                      Browsing history
+                    </label>
+                    <label class="checkbox-inline">
+                      <input id="clear-cookies-checkbox" type="checkbox" checked />
+                      Cookies and site data
+                    </label>
+                    <label class="checkbox-inline">
+                      <input id="clear-cache-checkbox" type="checkbox" checked />
+                      Cached images and files
+                    </label>
+                  </div>
+                  <button id="clear-browsing-data-button" class="primary-button danger" type="button">
+                    Clear browsing data
+                  </button>
+                </section>
+
+                <section class="settings-group">
+                  <h2>About</h2>
+                  <div id="about-version" class="settings-row-hint"></div>
+                </section>
+              </div>
+            </section>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <script type="module" src="scripts/app.js"></script>
+  </body>
+</html>
